@@ -52,6 +52,11 @@ After running the setup script, apply the configuration:
 sudo nixos-rebuild switch --flake .#default
 ```
 
+**Note**: After the first successful rebuild, you can use convenient shell aliases from zsh:
+- `rebuild` - Rebuild the configuration from the current directory
+- `update` - Update flake inputs from the current directory
+- `rebuild-etc` / `update-etc` - Same commands for `/etc/nixos/` (if you move the config there later)
+
 ## Prerequisites
 
 This configuration is designed for NixOS systems and uses Nix flakes. You need to enable flakes in your system configuration.
@@ -101,6 +106,30 @@ After enabling flakes, you can use this configuration.
 - Edit `hosts/default/home.nix` for user-level changes
 - Add new modules in the `modules/` directory
 - Configure custom packages in `modules/custom-packages/`
+
+## Convenience Features
+
+After your first successful rebuild, the configuration provides several convenience features:
+
+### Shell Aliases (zsh)
+
+The following aliases are available in zsh for quick rebuilds and updates:
+
+```bash
+# Rebuild from current directory (useful when working in the config repo)
+rebuild
+
+# Rebuild from /etc/nixos/ (if you move the config there)
+rebuild-etc
+
+# Update flake inputs from current directory
+update
+
+# Update flake inputs from /etc/nixos/
+update-etc
+```
+
+These aliases automatically include the correct flake path and configuration name, making rebuilds and updates much faster.
 
 ## Troubleshooting
 
