@@ -107,18 +107,14 @@ echo "Next steps:"
 echo "1. Review the generated hardware-configuration.nix file:"
 echo "   cat $HARDWARE_CONFIG_PATH"
 echo ""
-echo "2. Test your configuration:"
-if [[ "$FLAKE_ENABLED" == true ]]; then
-    echo "   sudo nixos-rebuild test --flake ."
-else
-    echo "   sudo nixos-rebuild test --extra-experimental-features 'flakes nix-command' --flake ."
-fi
+echo "2. Add the generated files to git (required for flakes):"
+echo "   git add ."
 echo ""
-echo "3. If everything works, switch to the new configuration:"
+echo "3. Apply your configuration:"
 if [[ "$FLAKE_ENABLED" == true ]]; then
-    echo "   sudo nixos-rebuild switch --flake ."
+    echo "   sudo nixos-rebuild switch --flake .#default"
 else
-    echo "   sudo nixos-rebuild switch --extra-experimental-features 'flakes nix-command' --flake ."
+    echo "   sudo nixos-rebuild switch --extra-experimental-features 'flakes nix-command' --flake .#default"
 fi
 echo ""
 echo -e "${BLUE}Note: The hardware-configuration.nix file is now in the correct location${NC}"
