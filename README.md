@@ -38,35 +38,25 @@ This script will:
 - Create a backup of any existing hardware configuration
 - Provide next steps for testing and applying the configuration
 
-### 3. Test and Apply Configuration
-
-After running the setup script, you'll need to test your configuration. This configuration uses Nix flakes, so you have two options:
-
-#### Option A: Use Flakes Temporarily (Recommended)
-
-Use the `--extra-experimental-features` flag without modifying your global configuration:
+After the hardware configuration is generated, add it to git tracking (required for flakes):
 
 ```bash
-# Test configuration with temporary flakes
-sudo nixos-rebuild test --extra-experimental-features "flakes nix-command" --flake .
-
-# If everything works, switch to the new configuration
-sudo nixos-rebuild switch --extra-experimental-features "flakes nix-command" --flake .
+git add .
 ```
 
-#### Option B: Enable Flakes Globally
+### 3. Apply Configuration
 
-If you have flakes enabled globally in your system configuration:
+After running the setup script, apply the configuration:
 
 ```bash
-# Test configuration
-sudo nixos-rebuild test --flake .
-
-# If everything works, switch to the new configuration
-sudo nixos-rebuild switch --flake .
+sudo nixos-rebuild switch --flake .#default
 ```
 
-To enable flakes globally, add this to your `/etc/nixos/configuration.nix`:
+## Prerequisites
+
+This configuration is designed for NixOS systems and uses Nix flakes. You need to enable flakes in your system configuration.
+
+Add the following to your `/etc/nixos/configuration.nix`:
 
 ```nix
 {
@@ -74,11 +64,13 @@ To enable flakes globally, add this to your `/etc/nixos/configuration.nix`:
 }
 ```
 
-Then run `sudo nixos-rebuild switch` before using this configuration.
+Then rebuild your system:
 
-## Prerequisites
+```bash
+sudo nixos-rebuild switch
+```
 
-This configuration is designed for NixOS systems and uses Nix flakes. No additional setup is required - the flakes can be used temporarily as shown in step 3 above.
+After enabling flakes, you can use this configuration.
 
 ## Configuration Structure
 
@@ -114,14 +106,25 @@ This configuration is designed for NixOS systems and uses Nix flakes. No additio
 
 ### "experimental Nix feature 'flakes' is disabled" error
 
-You have two options to resolve this:
+You need to enable flakes globally in your system configuration. See the [Prerequisites](#prerequisites) section above for instructions.
 
-1. **Use temporary flakes** (recommended): Add `--extra-experimental-features "flakes nix-command"` to your nixos-rebuild commands:
-   ```bash
-   sudo nixos-rebuild test --extra-experimental-features "flakes nix-command" --flake .
-   ```
+### "error: getting status of '/nix/store/...-source/flake.nix': No such file or directory"
 
-2. **Enable flakes globally**: See the [Prerequisites](#prerequisites) section above.
+Make sure you're running the command from within the cloned repository directory:
+
+```bash
+cd nixos-base-stable
+sudo nixos-rebuild switch --flake .#default
+```
+
+### "error: path '/nix/store/...' does not exist and cannot be created"
+
+This usually means the generated hardware configuration isn't tracked by git. Make sure to add files to git after running the setup script:
+
+```bash
+git add .
+sudo nixos-rebuild switch --flake .#default
+```
 
 ### "command 'nix' not found" or Nix not available
 
