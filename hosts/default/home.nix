@@ -14,6 +14,7 @@
     ./../../modules/home-manager/programs/zsh.nix
     ./../../modules/home-manager/programs/nixvim.nix
     ./../../modules/home-manager/programs/git.nix
+    ./../../modules/home-manager/programs/alacritty.nix
   ];
 
   nixpkgs = {
