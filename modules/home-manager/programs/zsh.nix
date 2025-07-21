@@ -48,7 +48,7 @@
         ls = "lsd -a";
       };
 
-      initContent = '
+      initContent = ''
         export EDITOR="nvim"
       '';
     };
