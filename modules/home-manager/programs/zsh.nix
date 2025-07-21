@@ -37,9 +37,9 @@
         ll = "ls -l";
         
         update-etc = "sudo nix flake update --flake /etc/nixos/";
-        update = "sudo nix flake update --flake ~/nixos-config";
+        update = "sudo nix flake update --flake ~/nixos-base-stable/";
 
-        edit = "code ~/nixos-config";
+        edit = "nvim ~/nixos-base-stable/";
 
         src = "source ~/.zshrc";
 
