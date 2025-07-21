@@ -27,7 +27,9 @@
   home.stateVersion = "25.05";
 
   home.packages = with pkgs; [
-
+    nerd-fonts.hack
+    nerd-fonts.geist-mono
+    nerd-fonts.jetbrains-mono
   ];
 
   home.sessionVariables = {
